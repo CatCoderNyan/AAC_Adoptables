@@ -100,7 +100,7 @@ def process_page(page):
 	#Grab next 6 rows and add to dictionary
 	count = 0
 	while (len(items) - count) / 6 >= 1:
-		dog_id = items[count+1].get_text()
+		cat_id = items[count+1].get_text()
 		description = items[count+2].get_text()
 		#age find_age(description)
 		#sex
@@ -110,7 +110,7 @@ def process_page(page):
 		location = items[count+4].get_text()
 		days_in_shelter = items[count+5].get_text()
 
-		store_animal_in_dict(dog_id, description, breed, location, days_in_shelter)
+		store_animal_in_dict(cat_id, description, breed, location, days_in_shelter)
 		count+=6
 	return num_pages
 
@@ -119,12 +119,8 @@ def process_page(page):
 def scrape_page(animal_type, page_index):
 	base_url = 'http://petharbor.com/results.asp?searchtype=ADOPT&view=sysadm.v_austin&shelterlist=%27ASTN%27&where='
 	# WHERE parameter
-	if animal_type == "dog":
-		where_parameters = "type_DOG"
-	elif animal_type == "cat":
-		where_parameters = "type_CAT"
-	else:
-		where_parameters = "type_OTHER"
+	# cat is only animal thx
+	where_parameters = "type_CAT"
 
 	page_parameter = '&PAGE=' + str(page_index)
 
@@ -153,14 +149,14 @@ def show_animals():
 		print(animal_id, animal)
 
 
-def scrape_for_dogs(animal_type, page_index):
+def scrape_for_cats(animal_type, page_index):
 	
 	page = scrape_page(animal_type, page_index)
 	num_pages = process_page(page)
 
 	if 0 < page_index < num_pages:
 		sleep(2)
-		scrape_for_dogs(animal_type, page_index + 1)
+		scrape_for_cats(animal_type, page_index + 1)
 
 
 
@@ -178,8 +174,8 @@ Returns:
 '''
 def begin_menu():
 	print(30 * "-" + " MENU " + 30 * "-")
-	print("1. Scrape AAC Dogs")
-	print("2  View Dogs")
+	print("1. Scrape AAC Catz")
+	print("2  View Catz")
 	print("3  Run Tests")
 	print("10  Exit")
 	print(67 * "-")
@@ -205,7 +201,7 @@ main
 Drives the menu selection process.
 
 Functions called:
-	scrape_for_dogs()
+	scrape_for_cats()
 
 '''
 def main():
@@ -216,10 +212,10 @@ def main():
 		choice = input("Choose an option: ")
 
 		if choice=="1":
-			print("Scraping for AAC dogs...")
-			scrape_for_dogs("dog", 34)
+			print("Scraping for AAC cats...")
+			scrape_for_cats("cat", 34)
 		elif choice=="2":
-			print("Viewing dogs.")
+			print("Viewing cats.")
 			show_animals()
 		elif choice=="3":
 			print("Running tests.")
